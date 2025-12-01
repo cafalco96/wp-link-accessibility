@@ -1,0 +1,49 @@
+/**
+ * Admin settings page styles
+ */
+.wplaf-info {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.wplaf-info h2 {
+    margin-top: 0;
+    color: #1d2327;
+}
+
+.wplaf-info h3 {
+    color: #2c3338;
+    margin-top: 15px;
+}
+
+.wplaf-info ul {
+    list-style: disc;
+    margin-left: 20px;
+    color: #50575e;
+}
+
+.wplaf-info ul li {
+    margin-bottom: 8px;
+}
+
+.wplaf-info p strong {
+    color: #1d2327;
+}
+
+#wplaf_options\[generic_texts\] {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Settings form spacing */
+.form-table th {
+    padding: 20px 10px 20px 0;
+}
+
+.form-table td {
+    padding: 15px 10px;
+}
