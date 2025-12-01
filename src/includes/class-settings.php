@@ -33,8 +33,11 @@ class WPLAF_Settings {
      * Constructor
      */
     private function __construct() {
-        add_action('admin_menu', [$this, 'add_settings_page']);
-        add_action('admin_init', [$this, 'register_settings']);
+        // Only load admin functionality in admin area
+        if (is_admin()) {
+            add_action('admin_menu', [$this, 'add_settings_page']);
+            add_action('admin_init', [$this, 'register_settings']);
+        }
     }
     
     /**
@@ -42,8 +45,8 @@ class WPLAF_Settings {
      */
     public function add_settings_page() {
         add_options_page(
-            __('Link Accessibility Settings', 'wp-link-accessibility-fix'),
-            __('Link Fixer', 'wp-link-accessibility-fix'),
+            __('Link Accessibility Settings', 'wp-link-accessibility'),
+            __('Link Accessibility', 'wp-link-accessibility'),
             'manage_options',
             'wp-link-accessibility',
             [$this, 'render_settings_page']
@@ -60,14 +63,14 @@ class WPLAF_Settings {
         
         add_settings_section(
             'wplaf_main_section',
-            __('Plugin Settings', 'wp-link-accessibility-fix'),
+            __('Plugin Settings', 'wp-link-accessibility'),
             null,
             'wp-link-accessibility'
         );
         
         add_settings_field(
             'wplaf_enable',
-            __('Enable Plugin', 'wp-link-accessibility-fix'),
+            __('Enable Plugin', 'wp-link-accessibility'),
             [$this, 'render_enable_field'],
             'wp-link-accessibility',
             'wplaf_main_section'
@@ -75,7 +78,7 @@ class WPLAF_Settings {
         
         add_settings_field(
             'wplaf_generic_texts',
-            __('Generic Link Texts', 'wp-link-accessibility-fix'),
+            __('Generic Link Texts', 'wp-link-accessibility'),
             [$this, 'render_generic_texts_field'],
             'wp-link-accessibility',
             'wplaf_main_section'
@@ -90,7 +93,11 @@ class WPLAF_Settings {
             return;
         }
         
-        include WPLAF_PLUGIN_DIR . 'src/admin/views/settings-page.php';
+        // Include the settings page template
+        $settings_file = WPLAF_PLUGIN_DIR . 'src/admin/settings-page.php';
+        if (file_exists($settings_file)) {
+            include $settings_file;
+        }
     }
     
     /**
@@ -104,7 +111,7 @@ class WPLAF_Settings {
                    name="<?php echo esc_attr(self::OPTION_NAME); ?>[enable]" 
                    value="1" 
                    <?php checked(!empty($options['enable']), true); ?> />
-            <?php _e('Fix generic links automatically', 'wp-link-accessibility-fix'); ?>
+            <?php esc_html_e('Fix generic links automatically', 'wp-link-accessibility'); ?>
         </label>
         <?php
     }
@@ -121,16 +128,16 @@ class WPLAF_Settings {
                   cols="50" 
                   class="large-text code"><?php echo esc_textarea(implode("\n", $texts)); ?></textarea>
         <p class="description">
-            <?php _e('One text per line (case insensitive)', 'wp-link-accessibility-fix'); ?>
+            <?php esc_html_e('One text per line (case insensitive)', 'wp-link-accessibility'); ?>
         </p>
         <p class="description">
-            <strong><?php _e('Examples:', 'wp-link-accessibility-fix'); ?></strong>
+            <strong><?php esc_html_e('Examples:', 'wp-link-accessibility'); ?></strong>
             <br>
-            <code>learn more</code> - <?php _e('Will match "Learn More", "LEARN MORE", etc.', 'wp-link-accessibility-fix'); ?>
+            <code>learn more</code> - <?php esc_html_e('Will match "Learn More", "LEARN MORE", etc.', 'wp-link-accessibility'); ?>
             <br>
-            <code>click here</code> - <?php _e('Will match "Click Here", "CLICK HERE", etc.', 'wp-link-accessibility-fix'); ?>
+            <code>click here</code> - <?php esc_html_e('Will match "Click Here", "CLICK HERE", etc.', 'wp-link-accessibility'); ?>
             <br>
-            <code>ver más</code> - <?php _e('Works with any language', 'wp-link-accessibility-fix'); ?>
+            <code>ver más</code> - <?php esc_html_e('Works with any language', 'wp-link-accessibility'); ?>
         </p>
         <?php
     }

@@ -60,22 +60,9 @@ class WPLAF_Plugin {
      * Initialize hooks
      */
     private function init_hooks() {
-        add_action('init', [$this, 'load_textdomain']);
-        
         // Content filters
         add_filter('the_content', [$this->link_processor, 'process_content'], 20);
         add_filter('widget_text', [$this->link_processor, 'process_content'], 20);
         add_filter('comment_text', [$this->link_processor, 'process_content'], 20);
-    }
-    
-    /**
-     * Load text domain
-     */
-    public function load_textdomain() {
-        load_plugin_textdomain(
-            'wp-link-accessibility-fix',
-            false,
-            dirname(WPLAF_PLUGIN_BASENAME) . '/languages'
-        );
     }
 }

@@ -162,7 +162,7 @@ class WPLAF_Link_Processor {
      * Generate label from URL
      */
     private function generate_label_from_url($href) {
-        $path = parse_url($href, PHP_URL_PATH);
+        $path = wp_parse_url($href, PHP_URL_PATH);
         
         if (!$path) {
             return false;
